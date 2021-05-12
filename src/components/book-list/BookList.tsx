@@ -26,13 +26,13 @@ class BookList extends React.Component<{data: any, totals: any}> {
                 total = discountedCost * 1.1
                 costRow = <td className="right-align" style={{width: "25%"}}>
                     <label className="discounted-cost">{this.roundAndConvert(Cost)}</label><br></br>
-                    <label className="discount">{this.roundAndConvert(discountedCost)}</label><br></br>
-                    <label className="discount subtext">CRIME CATEGORY DEAL (-{this.roundAndConvert(savings)})</label>
+                    <label className="price-update">{this.roundAndConvert(discountedCost)}</label><br></br>
+                    <label className="price-update subtext">CRIME CATEGORY DEAL (-{this.roundAndConvert(savings)})</label>
                 </td>
 
                 totalRow = <td className="right-align" style={{width: "15%"}}>
                     <label className="discounted-cost">{this.roundAndConvert(total/1.1)}</label><br></br>
-                    <label className="discount">{this.roundAndConvert(total)}</label>
+                    <label className="price-update">{this.roundAndConvert(total)}</label>
                 </td>
             }
             this.props.totals.totalTax+=tax
@@ -40,7 +40,7 @@ class BookList extends React.Component<{data: any, totals: any}> {
             return (
 
                 <tr className="data-row" key={i}>
-                    <td style={{width: "20%"}}>
+                    <td style={{width: "15%"}}>
                         <label>{Title}</label><br></br>
                         <label className='subtext'>Category: {BookCategory}</label>
                     </td>
@@ -58,20 +58,20 @@ class BookList extends React.Component<{data: any, totals: any}> {
 
      createSubTotalTable() {
          return (
-             <div>
-                 <table>
+             <div className="subtotal-container">
+                 <table className="subtotal-table">
                      <tbody>
-                        <tr>
-                            <td>Total Discount</td>
-                            <td>-{this.roundAndConvert(this.props.totals.totalDiscount)}</td>
+                        <tr className="subtotal-row">
+                            <td className="header-text">Total Discount</td>
+                            <td className="right-align price-update">-{this.roundAndConvert(this.props.totals.totalDiscount)}</td>
                         </tr>
-                        <tr>
-                            <td>Total Tax</td>
-                            <td>+{this.roundAndConvert(this.props.totals.totalTax)}</td>
+                        <tr className="subtotal-row">
+                            <td className="header-text">Total Tax</td>
+                            <td className="right-align price-update">+{this.roundAndConvert(this.props.totals.totalTax)}</td>
                         </tr>
-                        <tr>
-                            <td>Subtotal</td>
-                            <td>{this.roundAndConvert(this.props.totals.totalCost)}</td>
+                        <tr className="subtotal-row">
+                            <td className="header-text">Subtotal</td>
+                            <td className="right-align">{this.roundAndConvert(this.props.totals.totalCost)}</td>
                         </tr>
                      </tbody>
                  </table>
@@ -84,8 +84,8 @@ class BookList extends React.Component<{data: any, totals: any}> {
         console.log('data', data)
         return (
             <div>
-                <div className="table-header">
-                    <h3>FinTech Service Australia</h3>
+                <div className="page-header">
+                    <h3 className="title">FinTech Service Australia</h3>
                 </div>
                 <div>
                     <h2 className="sub-title">Fair Go Books</h2>
@@ -93,18 +93,18 @@ class BookList extends React.Component<{data: any, totals: any}> {
                 <table className='book-list-table'>
                     <thead>
                         <tr className="header-row">
-                            <th className="table-header left-align">Book</th>
-                            <th className="table-header right-align">Price</th>
-                            <th className="table-header right-align">Tax</th>
-                            <th className="table-header right-align">Total</th>
+                            <th className="left-align header-text">Book</th>
+                            <th className="right-align header-text">Price</th>
+                            <th className="right-align header-text">Tax</th>
+                            <th className="right-align header-text">Total</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="table-body">
                         {this.createBookListTable()}
                     </tbody>
                 </table>
+                <div className="buffer"></div>
                 <div>
-                    <h3>Subtotal</h3>
                     {this.createSubTotalTable()}
                 </div>
             </div>

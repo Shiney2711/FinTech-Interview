@@ -5,13 +5,13 @@ import BookList from './components/book-list/BookList';
 import UpdateButton from './components/update-button/UpdateButton'
 import Spinner from 'react-bootstrap/Spinner'
 
-class App extends React.Component<{}, { data: any, totals: any }> {//TODO types
+class App extends React.Component<{}, { data: any, totals: any, gotError: Boolean }> {//TODO types
 
-  
 
   constructor(props: any) {//TODO types
     super(props);
-    this.state = { 
+    this.state = {
+      gotError: false,
       data: [],
       totals: {
         totalCost: 0,
@@ -61,19 +61,25 @@ class App extends React.Component<{}, { data: any, totals: any }> {//TODO types
         "Cost": 22.9
       }
     ]
+    
+    this.setState({data})
     let totals = {
       totalCost: 0,
       totalTax: 0,
       totalDiscount: 0
     }
     this.setState({totals})
-    this.setState({data})
     // fetch(url)
     //   .then(res => res.json())
 
-    //   // Update the App state with the new data
-    //   .then(data => this.setState({ data }))
+    //   .then(data =>  {
+    //     this.setState({gotError: false})
+    //     this.setState({ data })
+    //   })
     //   .catch(err => {
+    //     this.setState({gotError: true})
+    //     //TODO: logger class
+    //     //TODO: error handling class
     //     console.log("Error!", err)
     //   })
   }
@@ -81,14 +87,11 @@ class App extends React.Component<{}, { data: any, totals: any }> {//TODO types
   render() {
     const { data } = this.state;
     const { totals } = this.state;
-    // Sanity check - if the state is still empty of data, present
-    // a loading icon or something
-    // if (!data.length) return <Spinner animation="border"/>
-
+    const { gotError } = this.state
     return (
       <div className="app-container">
         <BookList data={data} totals={totals} />
-        <UpdateButton fetchData={this.fetchData} />
+        <UpdateButton fetchData={this.fetchData} gotError={gotError} />
       </div>
     )
   }

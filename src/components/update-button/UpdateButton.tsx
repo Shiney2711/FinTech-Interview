@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './UpdateButton.css'
 
-class UpdateButton extends React.Component<{fetchData: any}, { url: string }> {
+class UpdateButton extends React.Component<{fetchData: any, gotError: Boolean}, { url: string }> {
 
     constructor(props: any) {//TODO: types
         super(props);
@@ -19,9 +19,17 @@ class UpdateButton extends React.Component<{fetchData: any}, { url: string }> {
     }
 
     render() {
+        const { gotError } = this.props
+        let errorMessage = null
+        if (gotError) {
+            errorMessage = <label className="error-message">
+              Error Fetching Data! Please Try Again.
+            </label>
+          }
         return (  
-        <div>
-            <button onClick={() => this.getData()}>Update List</button>
+        <div className="button-container">
+            <button className="update-button" onClick={() => this.getData()}>Update List</button><br></br>
+            {errorMessage}
         </div>
         )
     }

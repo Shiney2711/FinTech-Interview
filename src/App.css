@@ -2,5 +2,6 @@
   background-color: rgb(255, 253, 253);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: rgb(83, 81, 81);
-  border: 5px solid rgb(255, 253, 253);
+  border: 20px solid rgb(255, 253, 253);
+  display: grid;
 }

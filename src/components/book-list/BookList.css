@@ -1,9 +1,23 @@
+:root {
+    --title-color: #000000;
+  }
+
+.title {
+    color: var(--title-color);
+}
+
 .sub-title {
+    color: var(--title-color);
     text-align: center;
 }
 
-.table-header { 
+.page-header { 
     border-bottom: 1px solid black;
+}
+
+.table-body {
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
 }
 
 .book-list-table {
@@ -15,8 +29,8 @@
     text-decoration: line-through;
 }
 
-.discount {
-    color: rgb(112, 112, 148);
+.price-update {
+    color: rgb(119, 138, 170);
 }
 
 .right-align {
@@ -39,3 +53,28 @@
 .data-row {
     height: 80px;
 }
+
+.buffer {
+    height: 15px;
+}
+
+.subtotal-container {
+    float: right;
+    width: 40%;
+}
+
+.subtotal-table {
+    width: 100%;
+}
+
+.subtotal-row {
+    height: 50px;
+}
+
+.header-text {
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--title-color);
+}
+
+
