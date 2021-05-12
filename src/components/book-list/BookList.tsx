@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
+import { BookListProps, Data } from '../../Types';
 import './BookList.css'
 
 //cd C:\Program Files (x86)\Google\Chrome\Application
 //chrome.exe --disable-web-security --user-data-dir="C:\Users\gbix9\Desktop\Uni"
 
-class BookList extends React.Component<{data: any, totals: any}> {
+class BookList extends React.Component<BookListProps> {
 
-    constructor(props: any) {//TODO: types
+    totalCost: number = 0
+    totalTax: number = 0
+    totalDiscount: number = 0
+
+    constructor(props: BookListProps) {
         super(props);
     }
 
     createBookListTable() {
         const { data } = this.props;
-        return data.map((dataPoint: any, i: number) => {//TODO
+        return data.map((dataPoint: Data, i: number) => {
             const { Title, Cost, BookCategory } = dataPoint
-            let costRow = <td className="right-align" style={{width: "25%"}}><label>{this.roundAndConvert(Cost)}</label></td>
             let tax = Cost * 0.1
             let total = Cost * 1.1
+            let costRow = <td className="right-align" style={{width: "25%"}}><label>{this.roundAndConvert(Cost)}</label></td>
             let totalRow = <td className="right-align" style={{width: "15%"}}>{this.roundAndConvert(total)}</td>
+            
             if (BookCategory === "Crime") {
                 let discountedCost = Cost * 0.95
                 let savings = Cost - discountedCost
-                this.props.totals.totalDiscount+=savings
                 tax = discountedCost * 0.1
                 total = discountedCost * 1.1
+
                 costRow = <td className="right-align" style={{width: "25%"}}>
                     <label className="discounted-cost">{this.roundAndConvert(Cost)}</label><br></br>
-                    <label className="price-update">{this.roundAndConvert(discountedCost)}</label><br></br>
+                    <label id="categoryDiscount" className="price-update">{this.roundAndConvert(discountedCost)}</label><br></br>
                     <label className="price-update subtext">CRIME CATEGORY DEAL (-{this.roundAndConvert(savings)})</label>
                 </td>
 
@@ -35,17 +41,17 @@ class BookList extends React.Component<{data: any, totals: any}> {
                     <label className="price-update">{this.roundAndConvert(total)}</label>
                 </td>
             }
-            this.props.totals.totalTax+=tax
-            this.props.totals.totalCost+=total
             return (
-
                 <tr className="data-row" key={i}>
                     <td style={{width: "15%"}}>
                         <label>{Title}</label><br></br>
                         <label className='subtext'>Category: {BookCategory}</label>
                     </td>
                     {costRow}
-                    <td className="right-align" style={{width: "15%"}}>{this.roundAndConvert(tax)} <span className="subtext">(10%)</span></td>
+                    <td className="right-align" style={{width: "15%"}}>
+                        <label id="taxAmount">{this.roundAndConvert(tax)}</label>
+                        <label className="subtext"> (10%)</label>
+                    </td>
                     {totalRow}
                 </tr>
             )
@@ -56,6 +62,7 @@ class BookList extends React.Component<{data: any, totals: any}> {
         return "$" + moneyNumber.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
      }
 
+     //TODO probs should be its own component
      createSubTotalTable() {
          return (
              <div className="subtotal-container">
@@ -63,25 +70,46 @@ class BookList extends React.Component<{data: any, totals: any}> {
                      <tbody>
                         <tr className="subtotal-row">
                             <td className="header-text">Total Discount</td>
-                            <td className="right-align price-update">-{this.roundAndConvert(this.props.totals.totalDiscount)}</td>
+                            <td id="discountTotal" className="right-align">-{this.roundAndConvert(this.totalDiscount)}</td>
                         </tr>
                         <tr className="subtotal-row">
                             <td className="header-text">Total Tax</td>
-                            <td className="right-align price-update">+{this.roundAndConvert(this.props.totals.totalTax)}</td>
+                            <td id="taxTotal" className="right-align">+{this.roundAndConvert(this.totalTax)}</td>
                         </tr>
                         <tr className="subtotal-row">
                             <td className="header-text">Subtotal</td>
-                            <td className="right-align">{this.roundAndConvert(this.props.totals.totalCost)}</td>
+                            <td id="subtotal" className="right-align">{this.roundAndConvert(this.totalCost)}</td>
                         </tr>
                      </tbody>
                  </table>
              </div>
-         )
-     }
+        )
+    }
+
+    calculateTotals(data: Data[]) {
+        let tax = 0
+        let discount = 0
+        let total = 0
+        for (var dataPoint of data) {
+            let cost = dataPoint.Cost
+            if (dataPoint.BookCategory === "Crime") {
+                discount+=cost * 0.05
+                cost = cost * 0.95
+            }
+            tax+=cost*0.1
+            total+=cost*1.1
+        }
+        this.totalCost = total
+        this.totalTax = tax
+        this.totalDiscount = discount
+    }
 
     render() {
+        this.totalCost = 0
+        this.totalTax = 0
+        this.totalDiscount = 0
         const { data } = this.props;
-        console.log('data', data)
+        this.calculateTotals(data)
         return (
             <div>
                 <div className="page-header">

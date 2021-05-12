@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import { UpdateButtonProps, UpdateButtonState } from '../../Types';
 import './UpdateButton.css'
 
-class UpdateButton extends React.Component<{fetchData: any, gotError: Boolean}, { url: string }> {
+class UpdateButton extends React.Component<UpdateButtonProps, UpdateButtonState> {
 
-    constructor(props: any) {//TODO: types
+    constructor(props: UpdateButtonProps) {
         super(props);
-        this.state = { url: 'https://booklist.fgfdev.com.au/books' };
+        this.state = { url: 'https://booklist.fgfdev.com.au/books' };//TODO: config file
     }
 
     componentDidMount () {
@@ -28,7 +29,7 @@ class UpdateButton extends React.Component<{fetchData: any, gotError: Boolean}, 
           }
         return (  
         <div className="button-container">
-            <button className="update-button" onClick={() => this.getData()}>Update List</button><br></br>
+            <button id="updateButton" className="update-button" onClick={() => this.getData()}>Update List</button><br></br>
             {errorMessage}
         </div>
         )
