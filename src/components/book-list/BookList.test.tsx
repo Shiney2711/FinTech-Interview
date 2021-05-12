@@ -1,13 +1,28 @@
 import React from "react"
-import { shallow, ShallowWrapper } from "enzyme"
+import { mount, shallow, ShallowWrapper } from "enzyme"
 import BookList from './BookList'
 
-describe("Timer", () => {
-  let container: ShallowWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>
+describe("BookList", () => {
+  let component: any
+  let data = [
+    {
+      cost: 100,
+      category: "Crime"
+    },
+    {
+      cost: 50,
+      category: "Romance"
+    }
+  ]
+  let totals = {
+    totalCost: 0,
+    totalTax: 0,
+    totalDiscount: 0
+  }
 
-  beforeEach(() => (container = shallow(<BookList />)))
+  beforeEach(() => (component = mount(<BookList data={data} totals={totals} />)))
 
   it("should render a <div />", () => {
-    expect(container.find("div").length).toBeGreaterThanOrEqual(1)
+    expect(component.find("div").length).toBeGreaterThanOrEqual(1)
   })
 })

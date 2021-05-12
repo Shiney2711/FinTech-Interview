@@ -1,0 +1,41 @@
+.sub-title {
+    text-align: center;
+}
+
+.table-header { 
+    border-bottom: 1px solid black;
+}
+
+.book-list-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.discounted-cost {
+    text-decoration: line-through;
+}
+
+.discount {
+    color: rgb(112, 112, 148);
+}
+
+.right-align {
+    text-align: right;
+}
+
+.left-align {
+    text-align: left;
+}
+
+.subtext {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.header-row {
+    height: 40px;
+}
+
+.data-row {
+    height: 80px;
+}
